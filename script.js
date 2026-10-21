@@ -3,6 +3,17 @@
 (() => {
 'use strict';
 
+const logoText = document.getElementById("logo-text");
+if (logoText) {
+  const text = "Azad Kumar";
+  let index = 0;
+  const typeNextCharacter = () => {
+    logoText.textContent += text[index++];
+    if (index < text.length) setTimeout(typeNextCharacter, 150 + Math.random() * 70);
+  };
+  setTimeout(typeNextCharacter, 400);
+}
+
 /* ---------- constants & environment ---------- */
 const CHARS = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:/+!?-&";
 const N = CHARS.length, NUM = "0123456789";
