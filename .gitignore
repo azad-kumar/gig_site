@@ -1,0 +1,10 @@
+# Ignore all dot-prefixed files and folders
+/.[!.]*
+/..?*
+
+# Allow the .gitignore file
+!/.gitignore
+
+# Allow GitHub workflows and configuration
+!/.github/
+!/.github/**
