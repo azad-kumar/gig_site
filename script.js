@@ -9,7 +9,7 @@ const N = CHARS.length;
 const IDX = {}; [...CHARS].forEach((c, i) => IDX[c] = i);
 const SCENES = [
   { t: "SOLUTIONS.HOW?", c: "Struggling with data chaos? We turn *fragmented numbers* into *predictive growth engines.*" },
-  { t: "BOOST PROFIT",   c: "Stop losing revenue to reporting bottlenecks. We automate *SQL & Power BI workflows.*" },
+  { t: "BOOST PROFIT",   c: "Turn slow data pipelines into *real-time revenue engines* on autopilot." },
   { t: "GROW REVENUE",   c: "Turn operational history into *clear decision dashboards* and *predictive ML models.*" },
   { t: "DRIVE GROWTH", c: "Eliminate manual spreadsheet work with *self-refreshing data pipelines.*" }
 ];
@@ -296,6 +296,19 @@ counter.addEventListener("click", () => next(1));
 counter.addEventListener("keydown", e => {
   if (e.key === "Enter" || e.key === " ") { e.preventDefault(); next(1); }
 });
+
+/* ---------- mobile menu toggle ---------- */
+const hamburger = $("hamburger");
+const navPanel = document.querySelector(".nav-panel");
+if (hamburger && navPanel) {
+  const toggle = () => {
+    const open = document.body.classList.toggle("nav-open");
+    hamburger.setAttribute("aria-expanded", open);
+  };
+  hamburger.addEventListener("click", toggle);
+  navPanel.addEventListener("click", e => { if (e.target.tagName === "A") toggle(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && document.body.classList.contains("nav-open")) toggle(); });
+}
 
 /* ---------- start: measure, scramble, then spin 2 turns onto scene 1 ---------- */
 measure();

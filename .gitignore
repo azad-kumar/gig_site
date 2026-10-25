@@ -8,3 +8,6 @@
 # Allow GitHub workflows and configuration
 !/.github/
 !/.github/**
+
+# Skill lock file (local tooling, not part of the site)
+skills-lock.json
