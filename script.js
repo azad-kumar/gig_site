@@ -1,4 +1,4 @@
-/* Azad Kumar portfolio: rolling-counter hero.
+/* solutions.how portfolio: rolling-counter hero.
    One rAF loop (sleeps when idle), transform/opacity only, cached layout, auto-roll every 5s. */
 (() => {
 'use strict';
@@ -8,9 +8,10 @@ const CHARS = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:/+!?-&";
 const N = CHARS.length;
 const IDX = {}; [...CHARS].forEach((c, i) => IDX[c] = i);
 const SCENES = [
-  { t: "AZAD KUMAR",   c: "Hi, I'm Azad Kumar. I turn *raw data* into *strategic decisions.*" },
-  { t: "DATA ANALYST", c: "SQL, Power BI, and exploratory analysis that turn *complex numbers* into *actionable insight.*" },
-  { t: "DATA SCIENTIST", c: "Python, predictive models, and machine learning pipelines that solve *core business problems.*" }
+  { t: "SOLUTIONS.HOW?", c: "Struggling with data chaos? We turn *fragmented numbers* into *predictive growth engines.*" },
+  { t: "BOOST PROFIT",   c: "Stop losing revenue to reporting bottlenecks. We automate *SQL & Power BI workflows.*" },
+  { t: "GROW REVENUE",   c: "Turn operational history into *clear decision dashboards* and *predictive ML models.*" },
+  { t: "DRIVE GROWTH", c: "Eliminate manual spreadsheet work with *self-refreshing data pipelines.*" }
 ];
 const ROLL_MS = 5000, DRUMS = 14;
 const STEP = 34 * Math.PI / 180, HALF_PI = Math.PI / 2, SIN17 = Math.sin(17 * Math.PI / 180);
@@ -128,14 +129,14 @@ function progress() {
   restart(segs[scene], "run");
 }
 function go(i, extra) {
-  const now = performance.now(), m = rollN++ % 3;
+  const now = performance.now(), m = rollN++ % SCENES.length;
   scene = i; started = true; nextRoll = now + ROLL_MS;     // 5s counted from this roll's start
   const chars = layout(SCENES[i].t);
   drums.forEach((d, k) => {
     const delay = m === 0 ? k * 60 : m === 1 ? (DRUMS - 1 - k) * 60 : Math.floor(Math.abs(k - 6.5)) * 120;
     d.roll(IDX[chars[k]], REDUCED ? 0 : delay, extra, now, REDUCED);
   });
-  counter.setAttribute("aria-label", "Azad Kumar portfolio counter showing " + SCENES[i].t + ". Press to show the next scene.");
+  counter.setAttribute("aria-label", "solutions.how counter showing " + SCENES[i].t + ". Press to show the next scene.");
   cap.classList.remove("in");
   cap.innerHTML = parseCaption(SCENES[i].c).map((w, k) =>
     '<span class="w"><span class="wi' + (w.em ? " em" : "") + '" style="transition-delay:' + k * 45 + 'ms">' + w.t + "</span></span>").join(" ");
@@ -147,7 +148,7 @@ function go(i, extra) {
 function tick() {
   rollT = 0;
   if (paused || !started) return;
-  if (performance.now() >= nextRoll) go((scene + 1) % 3, Math.random() < .3 ? 1 : 0);
+  if (performance.now() >= nextRoll) go((scene + 1) % SCENES.length, Math.random() < .3 ? 1 : 0);
   else scheduleRoll();
 }
 function scheduleRoll() {
@@ -290,7 +291,7 @@ function frame(now) {
 }
 
 /* ---------- interactions ---------- */
-const next = extra => go((scene + 1) % 3, extra);
+const next = extra => go((scene + 1) % SCENES.length, extra);
 counter.addEventListener("click", () => next(1));
 counter.addEventListener("keydown", e => {
   if (e.key === "Enter" || e.key === " ") { e.preventDefault(); next(1); }
