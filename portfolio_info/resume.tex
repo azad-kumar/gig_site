@@ -1,0 +1,135 @@
+\documentclass[a4paper,10pt]{article}
+
+% ---------- Page & Font ----------
+\usepackage[a4paper,top=0.65cm,bottom=0.65cm,left=0.9cm,right=0.9cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+% ---------- Justification: full-width lines, no word splitting ----------
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\tolerance=9999
+\emergencystretch=2em
+\raggedbottom
+
+% ---------- Colors ----------
+\definecolor{navy}{HTML}{1F3A5F}
+\definecolor{accent}{HTML}{2E6DA4}
+\definecolor{textdark}{HTML}{222222}
+\definecolor{muted}{HTML}{555555}
+
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent}
+\color{textdark}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% ---------- Section Formatting ----------
+\titleformat{\section}
+  {\fontsize{8.8}{9.3}\selectfont\bfseries\color{navy}}
+  {}{0em}{\MakeUppercase}
+  [\vspace{-0.3em}\textcolor{accent}{\rule{\linewidth}{0.5pt}}]
+\titlespacing*{\section}{0pt}{2pt}{1pt}
+
+% ---------- Lists (text runs to right margin, wrapped lines align) ----------
+\setlist[itemize]{leftmargin=1em,rightmargin=0pt,itemsep=0pt,topsep=0pt,parsep=0pt,partopsep=0pt,label=\textbullet}
+
+% ---------- Custom Commands ----------
+\newcommand{\entry}[4]{%
+  \noindent\textbf{#1}\hfill\textit{#2}\\
+  \ifx&#3&\else\textit{#3}\hfill\textcolor{muted}{#4}\fi\par
+  \vspace{1pt}}
+
+\newcommand{\projtitle}[2]{%
+  \noindent\textbf{#1}\ifx&#2&\else\quad\textcolor{muted}{\small\textit{Tech: #2}}\fi\par}
+
+\newcommand{\skillrow}[2]{%
+  \noindent\textbf{#1:} #2\par\vspace{1.5pt}}
+
+\newcommand{\GITHUB}{github.com/azad-kumar}
+
+\begin{document}
+\fontsize{8.4}{9.0}\selectfont
+
+% ================= HEADER =================
+\begin{center}
+  {\Large\bfseries\color{navy}\href{http://azadkumar.in/}{\textcolor{navy}{AZAD KUMAR}}}\\[2pt]
+  {\small\bfseries Data Analyst \textcolor{accent}{|} Business Analyst \textcolor{accent}{|} BI Analyst}\\[2pt]
+  {\small +91 9019427710 \textcolor{accent}{|} \href{mailto:contact@azadkumar.in}{contact@azadkumar.in} \textcolor{accent}{|} \href{https://www.linkedin.com/in/azad-kumarr/}{linkedin.com/in/azad-kumarr/} \textcolor{accent}{|} \href{\GITHUB}{\GITHUB}} 
+\end{center}
+
+% ================= PROFESSIONAL SUMMARY =================
+\section*{Professional Summary}
+Data Analyst with PGDM in Data Science \& Business Analytics and BCA in Software Development. Skilled in SQL, Python, Excel, Power BI, Tableau, ETL, KPI reporting, dashboarding, and predictive modeling. Experienced in business analysis, data cleaning, and converting raw data into actionable insights for operations, sales, and decision-making.
+
+% ================= SKILLS =================
+\section*{Skills}
+\skillrow{Programming \& Data Analysis}{Python, SQL, Excel, Pandas, NumPy, Data Cleaning, ETL, EDA, Reporting}
+\skillrow{Database \& Querying}{PostgreSQL, SQL Queries, Joins, Subqueries, CTEs, Window Functions, Data Modeling}
+\skillrow{Business Intelligence}{Power BI, Tableau, DAX, Power Query, Dashboard Development, KPI Reporting, Data Visualization}
+\skillrow{Statistics \& ML}{Statistical Analysis, Hypothesis Testing, Regression, Classification, Clustering, Forecasting, Predictive Modeling, Scikit-learn}
+\skillrow{Business Analysis}{Requirement Gathering, Stakeholder Communication, Inventory Management, Sales Analysis, Demand Forecasting, Process Improvement}
+
+% ================= PROFESSIONAL EXPERIENCE =================
+\section*{Professional Experience}
+\entry{Durga Traders}{May 2026 -- July 2026}{Inventory \& Operations Intern}{Meerut, India}
+\begin{itemize}
+  \item Reconciled stock records and tracked inventory movement for imported power backup and electrical products to improve procurement and stock visibility.
+  \item Analyzed sales and demand trends to support planning, optimize inventory levels, and reduce peak-period stockout risks.
+  \item Maintained data logs and Excel-based tracking reports to monitor availability, reorder levels, and warehouse performance.
+\end{itemize}
+\vspace{2pt}
+
+\entry{GlowTouch}{January 2024 -- July 2024}{Technical Support Engineer Intern}{Mangalore, India}
+\begin{itemize}
+  \item Diagnosed and resolved DNS, SSL, domain, email, and WordPress issues using structured troubleshooting and issue analysis.
+  \item Investigated backend defects and recurring patterns to identify root causes and support resolution workflows.
+  \item Configured DNS records and addressed HTTP errors while documenting findings to improve service reliability and support quality.
+\end{itemize}
+
+% ================= PROJECTS =================
+\section*{Projects}
+\projtitle{Credit Risk Prediction System}{Python, SQL, PostgreSQL, Pandas, NumPy, Scikit-learn, FastAPI}
+\begin{itemize}
+  \item Built an end-to-end risk pipeline by integrating 11 source files into PostgreSQL and creating a feature store for credit analysis.
+  \item Trained and compared Logistic Regression, Random Forest, and XGBoost using Accuracy, Precision, Recall, F1-score, and ROC-AUC.
+  \item Deployed a FastAPI-based application to classify applicants into High Risk and Low Risk tiers for decision support.
+\end{itemize}
+\vspace{2pt}
+
+\projtitle{Dynamic Pricing Model}{Python, SQL, Tableau, PySpark}
+\begin{itemize}
+  \item Analyzed 421,570 sales records across stores, departments, and regions to identify pricing and demand trends.
+  \item Built a PySpark ETL pipeline and used K-Means clustering and ANOVA with Tukey's HSD to evaluate sales impact by discount class.
+  \item Produced 18-month forecasting and pricing recommendations, presented in Tableau dashboards for business stakeholders.
+\end{itemize}
+\vspace{2pt}
+
+\projtitle{Supply Chain Analytics Dashboard}{Python, PostgreSQL, SQL, Power BI, Excel}
+\begin{itemize}
+  \item Built a full analytics solution over 6 relational tables covering warehouses, suppliers, inventory, purchase orders, and shipments.
+  \item Created SQL analyses for inventory health, supplier performance, procurement trends, and carrier performance for management reporting.
+  \item Designed a 5-page Power BI dashboard highlighting delays, stock imbalances, warehouse utilization gaps, and reorder urgency.
+\end{itemize}
+
+% ================= EDUCATION =================
+\section*{Education}
+\entry{PGDM -- Data Science \& Business Analytics}{2025 -- 2027 (Ongoing)}{ISBR Business School}{Bengaluru}
+\vspace{1pt}
+\entry{Bachelor of Computer Applications (BCA) -- Software \& Web Development}{Graduated 2024}{Srinivas University}{Mangalore | CGPA: 8.5/10}
+
+% ================= CERTIFICATIONS =================
+\section*{Certifications}
+\begin{itemize}
+  \item Google Advanced Data Analytics Professional Certificate (Coursera / Google)
+  \item Azure Data Fundamentals (DP-900) -- Microsoft
+  \item Tata GenAI Powered Data Analytics Job Simulation (Forage)
+\end{itemize}
+
+\end{document}

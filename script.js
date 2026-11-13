@@ -350,7 +350,7 @@ function syncNav() {
 addEventListener("scroll", () => { if (!navTick) { navTick = true; requestAnimationFrame(syncNav); } }, { passive: true });
 syncNav();
 
-/* ---------- sections: smooth scroll, reveal, project toggle, preview modal ---------- */
+/* ---------- sections: smooth scroll & reveal ---------- */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener("click", e => {
     const el = document.querySelector(a.getAttribute("href"));
@@ -360,29 +360,5 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("on"); io.unobserve(x.target); } }), { threshold: .12 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
-const btns = [...document.querySelectorAll(".toggle-btn")];
-const grids = { ds: $("grid-ds"), da: $("grid-da") };
-btns.forEach(b => b.addEventListener("click", () => {
-  btns.forEach(x => { x.classList.toggle("is-active", x === b); x.setAttribute("aria-selected", x === b); });
-  Object.entries(grids).forEach(([k, g]) => { if (g) g.classList.toggle("is-hidden", k !== b.dataset.filter); });
-}));
 
-const PREVIEWS = {
-  churn:   { k: "Streamlit — Churn", title: "Customer Churn & Retention Predictor", note: "XGBoost + SHAP demo. Replace src with your Streamlit share URL.", url: "about:blank" },
-  clv:     { k: "Jupyter — Segmentation", title: "E-Commerce CLV & Segmentation", note: "RFM + K-Means notebook. Replace src with your nbviewer / Colab embed.", url: "about:blank" },
-  nlp:     { k: "FastAPI — NLP", title: "Sentiment & Feedback NLP Engine", note: "HuggingFace + FastAPI demo. Replace src with your hosted endpoint UI.", url: "about:blank" },
-  revenue: { k: "Power BI — Revenue", title: "Executive Revenue & Operations Dashboard", note: "Power BI embed. Replace src with your publish-to-web URL.", url: "about:blank" },
-  abtest:  { k: "Analytics — A/B", title: "A/B Testing & User Behavior Analysis", note: "SciPy experiment notebook. Replace src with your notebook embed.", url: "about:blank" },
-  supply:  { k: "Analytics — Forecast", title: "Supply Chain & Demand Forecasting", note: "Statsmodels forecast notebook. Replace src with your notebook embed.", url: "about:blank" }
-};
-const modal = $("preview-modal"), pFrame = $("preview-frame"), pTitle = $("preview-title"), pKick = $("preview-kicker"), pNote = $("preview-note");
-function openPreview(key) {
-  const p = PREVIEWS[key]; if (!p || !modal) return;
-  pKick.textContent = p.k; pTitle.textContent = p.title; pNote.textContent = p.note; pFrame.src = p.url;
-  modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
-}
-function closePreview() { if (!modal) return; modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); pFrame.src = ""; }
-document.querySelectorAll("[data-preview]").forEach(b => b.addEventListener("click", () => openPreview(b.dataset.preview)));
-document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", closePreview));
-addEventListener("keydown", e => { if (e.key === "Escape") closePreview(); });
 })();
