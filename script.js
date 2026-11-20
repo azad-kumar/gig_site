@@ -205,88 +205,53 @@ new IntersectionObserver(es => { inView = es[0].isIntersecting; sync(); }).obser
 
 /* ---------- pointer state: glow follows mouse (no tilt) ---------- */
 let mx = vw / 2, my = vh / 2, gx = mx, gy = my, seen = false;
-const lens = $("data-lens");
-if (lens) {
-  const dashboard = lens.querySelector(".clean-dashboard-bg .dash");
-  if (dashboard) {
-    const zoomedDashboard = dashboard.cloneNode(true);
-    zoomedDashboard.classList.add("dash-zoom");
-    zoomedDashboard.setAttribute("aria-hidden", "true");
-    zoomedDashboard.setAttribute("role", "presentation");
-    dashboard.parentElement.appendChild(zoomedDashboard);
-    lens.classList.add("has-lens-zoom");
-  }
-  let lensFrame = 0, lensClientX = 0, lensClientY = 0, lensPointerActive = false, lensKeyboardActive = false, lensPositionKnown = false;
-  const setLensPosition = (x, y) => {
-    const rect = lens.getBoundingClientRect();
-    lens.style.setProperty("--mouse-x", Math.max(0, Math.min(lens.clientWidth, x - rect.left - lens.clientLeft)) + "px");
-    lens.style.setProperty("--mouse-y", Math.max(0, Math.min(lens.clientHeight, y - rect.top - lens.clientTop)) + "px");
-  };
-  const queueLensPosition = (x, y) => {
-    lensClientX = x;
-    lensClientY = y;
-    lensPositionKnown = true;
-    if (lensFrame) return;
-    lensFrame = requestAnimationFrame(() => {
-      lensFrame = 0;
-      setLensPosition(lensClientX, lensClientY);
-    });
-  };
-  const moveLens = e => {
-    lensPointerActive = true;
-    lens.classList.add("lens-active");
-    queueLensPosition(e.clientX, e.clientY);
-  };
-  const leaveLens = () => {
-    lensPointerActive = false;
-    if (!lensKeyboardActive) lens.classList.remove("lens-active");
-  };
-  lens.addEventListener("pointerenter", moveLens, { passive: true });
-  lens.addEventListener("pointermove", moveLens, { passive: true });
-  lens.addEventListener("pointerdown", moveLens, { passive: true });
-  lens.addEventListener("pointerleave", leaveLens, { passive: true });
-  lens.addEventListener("pointercancel", leaveLens, { passive: true });
-  lens.addEventListener("pointerup", e => {
-    if (e.pointerType === "touch") leaveLens();
-  }, { passive: true });
-  lens.addEventListener("focus", () => {
-    lensKeyboardActive = true;
-    lens.classList.add("lens-active");
-    if (!lensPointerActive) {
-      const rect = lens.getBoundingClientRect();
-      queueLensPosition(rect.left + lens.clientLeft + lens.clientWidth / 2, rect.top + lens.clientTop + lens.clientHeight / 2);
+/* ---------- insights: scroll-driven door reveal ---------- */
+const insightsEl = $("insights");
+if (insightsEl) {
+  const stageIns = insightsEl.querySelector(".insights-stage");
+  const prog = insightsEl.querySelector(".insights-progress");
+  const pct = insightsEl.querySelector(".insights-progress .pct");
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let kbOpen = null;
+  const applyOpen = open => {
+    const v = Math.max(0, Math.min(1, open));
+    if (stageIns) {
+      stageIns.style.setProperty("--open", v.toFixed(4));
+      stageIns.classList.toggle("is-open", v >= 0.999);
     }
-  });
-  lens.addEventListener("blur", () => {
-    lensKeyboardActive = false;
-    if (!lensPointerActive) lens.classList.remove("lens-active");
-  });
-  lens.addEventListener("keydown", e => {
-    const step = e.shiftKey ? 80 : 40;
-    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Escape"].includes(e.key)) {
-      e.preventDefault();
-      const rect = lens.getBoundingClientRect();
-      const currentX = parseFloat(lens.style.getPropertyValue("--mouse-x"));
-      const currentY = parseFloat(lens.style.getPropertyValue("--mouse-y"));
-      const x = Number.isFinite(currentX) ? currentX : lens.clientWidth / 2;
-      const y = Number.isFinite(currentY) ? currentY : lens.clientHeight / 2;
-      const left = rect.left + lens.clientLeft;
-      const top = rect.top + lens.clientTop;
-      if (e.key === "Escape") queueLensPosition(left + lens.clientWidth / 2, top + lens.clientHeight / 2);
-      else queueLensPosition(left + x + (e.key === "ArrowLeft" ? -step : e.key === "ArrowRight" ? step : 0), top + y + (e.key === "ArrowUp" ? -step : e.key === "ArrowDown" ? step : 0));
-    }
-  });
-  const refreshLensPosition = () => {
-    if (lensPositionKnown) queueLensPosition(lensClientX, lensClientY);
+    if (prog) prog.setAttribute("aria-valuenow", String(Math.round(v * 100)));
+    if (pct) pct.textContent = Math.round(v * 100) + "%";
   };
-  addEventListener("scroll", refreshLensPosition, { passive: true });
-  addEventListener("resize", refreshLensPosition, { passive: true });
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("scroll", refreshLensPosition, { passive: true });
-    window.visualViewport.addEventListener("resize", refreshLensPosition, { passive: true });
-  }
-  new ResizeObserver(refreshLensPosition).observe(lens);
+  const updateReveal = () => {
+    if (reduceMotion) { applyOpen(1); return; }
+    if (kbOpen !== null) { applyOpen(kbOpen); return; }
+    const rect = insightsEl.getBoundingClientRect();
+    const total = Math.max(insightsEl.offsetHeight - window.innerHeight, 0);
+    const passed = Math.min(Math.max(-rect.top, 0), total);
+    applyOpen(total > 0 ? passed / total : 1);
+  };
+  updateReveal();
+  addEventListener("scroll", () => requestAnimationFrame(updateReveal), { passive: true });
+  addEventListener("resize", () => requestAnimationFrame(updateReveal), { passive: true });
+
+  // keyboard / AT fallback for non-scrolling users
+  insightsEl.addEventListener("keydown", e => {
+    if (!["ArrowRight","ArrowLeft","ArrowDown","ArrowUp","Home","End","Enter"," ","Escape"].includes(e.key)) return;
+    const cur = kbOpen !== null ? kbOpen : (stageIns ? (parseFloat(stageIns.style.getPropertyValue("--open")) || 0) : 0);
+    const step = e.shiftKey ? 0.25 : 0.1;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") kbOpen = Math.min(1, cur + step);
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") kbOpen = Math.max(0, cur - step);
+    else if (e.key === "Home") kbOpen = 0;
+    else if (e.key === "End") kbOpen = 1;
+    else if (e.key === "Escape") kbOpen = null;
+    e.preventDefault();
+    updateReveal();
+  }, { passive: false });
+
+  insightsEl.setAttribute("aria-live", "polite");
 }
+
+
 if (FINE) {
   addEventListener("mousemove", e => {
     mx = e.clientX; my = e.clientY;

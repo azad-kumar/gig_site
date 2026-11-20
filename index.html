@@ -84,16 +84,17 @@
   </div>
 </section>
 <!-- DATA REVEAL LENS -->
-<section class="section lens-wrap" id="insights" aria-labelledby="lens-title">
-  <div class="wrap">
-    <p class="eyebrow">From raw data to strategic insights</p>
-    <h2 class="h2" id="lens-title">Transforming Chaos into Clarity</h2>
-    <p class="lede">Move or touch the lens across real customer rows to reveal the sales story hidden in the spreadsheet.</p>
+<section class="insights-scroll" id="insights" aria-labelledby="lens-title" tabindex="0" role="region">
+  <div class="insights-sticky">
+    <div class="insights-stage">
 
-    <div class="data-lens-section" id="data-lens" tabindex="0" role="group" aria-labelledby="lens-title" aria-describedby="lens-description">
-      <p class="sr" id="lens-description">Interactive visual: a structured customer sales spreadsheet transforms beneath a circular inspection lens into an e-commerce dashboard. The dashboard reports total sales of 177.13 million, 138.116 thousand orders, and a 42.99 percent profit margin, with sales charts by month, product category, payment method, order status, and customer country. Use the arrow keys to move the lens and Escape to return it to the center.</p>
+      <div class="insights-hud">
+        <p class="eyebrow">From raw data to strategic insights</p>
+        <h2 class="h2" id="lens-title">Transforming Chaos into Clarity</h2>
+        <p class="lede">Keep scrolling — the spreadsheet opens like doors to reveal the story inside.</p>
+      </div>
 
-      <div class="raw-data-bg" aria-hidden="true">
+      <div class="raw-fullsheet" aria-hidden="true">
         <div class="sheet-scroll"><table class="customer-sheet">
           <thead><tr><th>Customer ID</th><th>Customer Name</th><th>Age</th><th>Gender</th><th>Segment</th><th>City</th><th>State</th><th>Country</th><th>Region</th><th>Sales Amount</th></tr></thead>
           <tbody>
@@ -117,13 +118,16 @@
         </table></div>
       </div>
 
-      <div class="clean-dashboard-bg" aria-hidden="true"><div class="dash">
+      <div class="reveal-dashboard" aria-hidden="true">
+        <div class="dash">
+
         <header class="dash-header"><strong>E-COMMERCE SALES DASHBOARD</strong><span class="year-filter">Year <b>All</b><i aria-hidden="true"></i></span></header>
         <div class="kpi kpi-sales"><span class="kpi-label">Total Sales</span><strong class="kpi-value">177.13M</strong><span class="kpi-note">Across all orders</span></div>
         <div class="kpi kpi-orders"><span class="kpi-label">Total Orders</span><strong class="kpi-value">138.116K</strong><span class="kpi-note">Customer transactions</span></div>
         <div class="kpi kpi-margin"><span class="kpi-label">Profit Margin %</span><strong class="kpi-value">42.99%</strong><span class="kpi-note">Net sales margin</span></div>
 
-        <section class="panel panel-month" aria-label="Total sales by month"><h3 class="panel-title">Total Sales by Month</h3>
+        
+<section class="panel panel-month" aria-label="Total sales by month"><h3 class="panel-title">Total Sales by Month</h3>
           <div class="month-chart"><div class="month-yaxis"><span>20M</span><span>15M</span><span>10M</span><span>5M</span></div>
             <svg class="month-line" viewBox="0 0 360 120" preserveAspectRatio="none" aria-hidden="true">
               <path class="chart-grid" d="M0 12H360M0 40H360M0 68H360M0 96H360"/><path class="chart-area" d="M4 83L36 68L68 75L100 51L132 59L164 42L196 53L228 35L260 44L292 25L324 32L356 14V108H4Z"/><path class="chart-line" d="M4 83L36 68L68 75L100 51L132 59L164 42L196 53L228 35L260 44L292 25L324 32L356 14"/>
@@ -132,27 +136,33 @@
           </div>
         </section>
 
-        <section class="panel panel-category" aria-label="Total sales by product category"><h3 class="panel-title">Total Sales by Product Category</h3>
+<section class="panel panel-category" aria-label="Total sales by product category"><h3 class="panel-title">Total Sales by Product Category</h3>
           <div class="category-bars"><div><i style="--bar:88%"></i><span>Electronics</span></div><div><i style="--bar:71%"></i><span>Furniture</span></div><div><i style="--bar:59%"></i><span>Clothing</span></div><div><i style="--bar:48%"></i><span>Home &amp; Garden</span></div><div><i style="--bar:36%"></i><span>Sports</span></div></div>
         </section>
 
-        <section class="panel panel-payment" aria-label="Total sales by payment method"><h3 class="panel-title">Total Sales by Payment Method</h3><div class="payment-content">
+<section class="panel panel-payment" aria-label="Total sales by payment method"><h3 class="panel-title">Total Sales by Payment Method</h3><div class="payment-content">
           <svg class="payment-donut" viewBox="0 0 100 100" aria-hidden="true"><circle class="donut-track" cx="50" cy="50" r="34"/><circle class="donut-part donut-credit" cx="50" cy="50" r="34" pathLength="100" stroke-dasharray="42 58"/><circle class="donut-part donut-debit" cx="50" cy="50" r="34" pathLength="100" stroke-dasharray="27 73" stroke-dashoffset="-42"/><circle class="donut-part donut-paypal" cx="50" cy="50" r="34" pathLength="100" stroke-dasharray="19 81" stroke-dashoffset="-69"/><circle class="donut-part donut-cash" cx="50" cy="50" r="34" pathLength="100" stroke-dasharray="12 88" stroke-dashoffset="-88"/><text x="50" y="48" text-anchor="middle">138K</text><text class="donut-caption" x="50" y="59" text-anchor="middle">ORDERS</text></svg>
           <ul class="payment-legend"><li><i class="legend-credit"></i>Credit Card <b>42%</b></li><li><i class="legend-debit"></i>Debit Card <b>27%</b></li><li><i class="legend-paypal"></i>PayPal <b>19%</b></li><li><i class="legend-cash"></i>Cash <b>12%</b></li></ul>
         </div></section>
 
-        <section class="panel panel-status" aria-label="Total sales by order status"><h3 class="panel-title">Total Sales by Order Status</h3><div class="status-bars">
+<section class="panel panel-status" aria-label="Total sales by order status"><h3 class="panel-title">Total Sales by Order Status</h3><div class="status-bars">
           <div><span>Completed</span><i><b style="--bar:92%"></b></i><strong>92%</strong></div><div><span>Returned</span><i><b style="--bar:34%"></b></i><strong>34%</strong></div><div><span>Cancelled</span><i><b style="--bar:21%"></b></i><strong>21%</strong></div><div><span>Pending</span><i><b style="--bar:13%"></b></i><strong>13%</strong></div>
         </div></section>
 
-        <section class="panel panel-country" aria-label="Total sales by customer country"><h3 class="panel-title">Total Sales by Customer Country</h3><ol class="country-list">
+<section class="panel panel-country" aria-label="Total sales by customer country"><h3 class="panel-title">Total Sales by Customer Country</h3><ol class="country-list">
           <li><span class="country-rank">01</span><span>United States</span><i><b style="--bar:94%"></b></i><strong>38.4M</strong></li><li><span class="country-rank">02</span><span>United Kingdom</span><i><b style="--bar:72%"></b></i><strong>24.8M</strong></li><li><span class="country-rank">03</span><span>Canada</span><i><b style="--bar:58%"></b></i><strong>19.2M</strong></li><li><span class="country-rank">04</span><span>Australia</span><i><b style="--bar:43%"></b></i><strong>14.6M</strong></li>
         </ol></section>
-      </div></div>
-      <div class="lens-ring" aria-hidden="true"><span class="lens-label">INSIGHT LENS</span></div>
+</div>
+      </div>
+
+      <div class="door-seam door-seam-left" aria-hidden="true"></div>
+      <div class="door-seam door-seam-right" aria-hidden="true"></div>
+      <div class="insights-progress" role="progressbar" aria-label="Reveal progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i><span class="pct">0%</span></div>
+
     </div>
   </div>
 </section>
+
 <!-- SKILLS -->
 <section class="section" id="services" aria-labelledby="skills-title">
   <div class="wrap">

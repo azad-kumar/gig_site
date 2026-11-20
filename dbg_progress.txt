@@ -1,4 +1,0 @@
-start read
-read ok
-start rules
-rule 3
