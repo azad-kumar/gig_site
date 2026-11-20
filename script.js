@@ -234,6 +234,19 @@ if (insightsEl) {
   addEventListener("scroll", () => requestAnimationFrame(updateReveal), { passive: true });
   addEventListener("resize", () => requestAnimationFrame(updateReveal), { passive: true });
 
+  // freeze spreadsheet: scale to fit the stage so it never scrolls or clips
+  const sheetWrap = insightsEl.querySelector(".sheet-scroll");
+  const sheetTbl = insightsEl.querySelector(".customer-sheet");
+  const fitSheet = () => {
+    if (!sheetWrap || !sheetTbl) return;
+    const cw = sheetWrap.clientWidth, ch = sheetWrap.clientHeight;
+    const sw = sheetTbl.offsetWidth, sh = sheetTbl.offsetHeight;
+    if (!cw || !ch || !sw || !sh) return;
+    sheetWrap.style.setProperty("--fit-scale", (Math.min(cw / sw, ch / sh)).toFixed(4));
+  };
+  fitSheet();
+  addEventListener("resize", () => requestAnimationFrame(fitSheet), { passive: true });
+
   // keyboard / AT fallback for non-scrolling users
   insightsEl.addEventListener("keydown", e => {
     if (!["ArrowRight","ArrowLeft","ArrowDown","ArrowUp","Home","End","Enter"," ","Escape"].includes(e.key)) return;
@@ -250,6 +263,105 @@ if (insightsEl) {
 
   insightsEl.setAttribute("aria-live", "polite");
 }
+
+/* ---------- insights sheet: auto-fill rows to cover full viewport ---------- */
+(function initSheetRows() {
+  const stage = document.querySelector(".insights-stage");
+  if (!stage) return;
+  const scrollWrap = stage.querySelector(".sheet-scroll");
+  const tbody = stage.querySelector(".customer-sheet tbody");
+  if (!scrollWrap || !tbody) return;
+
+  const NAMES = [
+    "Olivia Martin","Liam Johnson","Amara Okafor","Noah Williams","Sofia Chen",
+    "Ethan Patel","Isabella Rossi","Lucas Silva","Mia Thompson","James Brown",
+    "Priya Sharma","Oliver Wilson","Grace Kim","Benjamin Clark","Chloe Davis",
+    "Henry Garcia","Aria Nguyen","Mohammed Ali","Emma Watson","William Lee",
+    "Charlotte Park","Alexander Dubois","Mila Santos","Daniel Kim","Scarlett Ross",
+    "Lucas Fernandez","Zoe Anderson","Mason Wright","Layla Cooper","Elijah Morgan",
+    "Hannah Hughes","Logan Price","Avery Bennett","Ella Gray","Jack Barnes",
+    "Luna Foster","Oscar Quinn","Isla Dixon","Leo Webb","Nova Holmes",
+    "Max Rivera","Aurora Chase","Felix Grant","Ruby Owens","Arlo Dunn"
+  ];
+  const SEGMENTS = ["Consumer","Corporate","Home Office","Small Business"];
+  const GENDERS  = ["Female","Male","Non-binary","Male","Female","Female"];
+  const CITIES   = [
+    "New York","London","Tokyo","Sydney","Toronto","Berlin","Mumbai","Dubai",
+    "Singapore","Paris","São Paulo","Seoul","Lagos","Cairo","Nairobi",
+    "Bangkok","Mexico City","Buenos Aires","Istanbul","Stockholm",
+    "Amsterdam","Vienna","Zurich","Oslo","Helsinki","Warsaw","Prague",
+    "Athens","Lisbon","Madrid","Rome","Milan","Barcelona","Munich",
+    "Frankfurt","Dusseldorf","Hamburg","Cologne","Leipzig","Stuttgart",
+    "Munster","Bremen","Hanover","Darmstadt","Karlsruhe","Freiburg",
+    "Heidelberg","Wiesbaden","Mainz","Kassel","Rostock","Magdeburg"
+  ];
+  const STATES   = ["NY","ON","TKY","NSW","ON","BER","MH","DXB","CE","IDF","SP","SE","LA","CA","RJ","KA","DL","WB","TN","KL","AP","UP","GJ","RJ","MP","BR","PB","HR","UK","HP","SK","NR","ML","TR","AS","GA","MN","MZ","AP","TS","KL","KB","KR","KN","LD","SR","JH","CG","OR","DN","DK","PN","AP","TG","KL","GO","MH","GJ","RJ","UP","DL","HR","PB","CH","JK","UT","UK","HP","BR","AR","NL","MZ","MN","TR","MG","SP","RS","BA","PE","AM","PA","MA","CE","RN","ES","PR","SC","MT","MS","TO","PI","AL","SE","RN","RO","AC","AP","RR","MA","PA","AM","AP","PA","AM","RO","AC"];
+  const COUNTRIES= ["United States","United Kingdom","Japan","Australia","Canada","Germany","India","UAE","Singapore","France","Brazil","South Korea","Nigeria","Egypt","Kenya","Thailand","Mexico","Argentina","Turkey","Sweden"];
+  const REGIONS  = ["North America","Europe","Asia Pacific","Middle East","South America","Africa"];
+
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function randAmt() { return (Math.random() * 4995 + 5).toFixed(2); }
+
+  function generateRow(i) {
+    const id = `C-${1001 + i}`;
+    const name = pick(NAMES);
+    const age  = Math.floor(Math.random() * 35) + 22;
+    const gender = pick(GENDERS);
+    const segment = pick(SEGMENTS);
+    const city = pick(CITIES);
+    const state = pick(STATES);
+    const country = pick(COUNTRIES);
+    const region = pick(REGIONS);
+    const sales = randAmt();
+    return `<tr><td>${id}</td><td>${name}</td><td>${age}</td><td>${gender}</td><td>${segment}</td><td>${city}</td><td>${state}</td><td>${country}</td><td>${region}</td><td>${sales}</td></tr>`;
+  }
+
+  // Measure: figure out how many rows are needed so the top of the body touches
+  // the bottom of the sticky HUD area when scrolled exactly one viewport height.
+  // We measure the actual rendered row height (not a hardcoded guess) so it
+  // works correctly on mobile, tablet and desktop with different font sizes.
+  const HEADER_H = 180; // approx height of .insights-hud inside the sticky stage
+
+  function measureRowHeight() {
+    // Force a layout by reading offsetHeight of the first data row
+    const first = tbody.querySelector("tr");
+    if (!first) return 32;
+    const h = first.offsetHeight;
+    return h > 0 ? h : 32;
+  }
+
+  function neededRows() {
+    const vh = window.innerHeight;
+    const rowH = measureRowHeight();
+    const visible = Math.ceil(vh / rowH);
+    // Extra rows so the table body extends below the HUD and fills the screen
+    const extra = Math.max(2, Math.ceil(HEADER_H / rowH));
+    return visible + extra;
+  }
+
+  function syncRows() {
+    const needed = neededRows();
+    const current = tbody.children.length;
+    if (needed > current) {
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < needed - current; i++) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = generateRow(current + i);
+        frag.appendChild(tr);
+      }
+      tbody.appendChild(frag);
+    } else if (needed < current) {
+      while (tbody.children.length > needed) tbody.removeChild(tbody.lastChild);
+    }
+  }
+
+  // Initial fill
+  syncRows();
+
+  // On resize, recalculate and add/remove rows as needed
+  let resizeTick = false;
+  addEventListener("resize", () => { if (!resizeTick) { resizeTick = true; requestAnimationFrame(() => { syncRows(); resizeTick = false; }); } }, { passive: true });
+})();
 
 
 if (FINE) {

@@ -197,9 +197,11 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 .insights-hud .lede{margin-bottom:0}
 
 /* base: spreadsheet fitted to the screen */
-.raw-fullsheet{position:absolute;inset:0;z-index:1;overflow:hidden;background:#101318;color:#acb5c0;user-select:none;display:flex;align-items:center;justify-content:center}
+.raw-fullsheet{position:absolute;inset:0;z-index:1;overflow:hidden;background:#101318;color:#acb5c0;user-select:none;display:flex;align-items:stretch;justify-content:stretch}
 .raw-fullsheet .sheet-scroll{width:100%;height:100%;overflow:hidden}
-.raw-fullsheet .customer-sheet{width:100%;border-collapse:collapse;table-layout:fixed;font:400 clamp(7px,.9vw,11px)/1.4 var(--mono);color:#b5c1ce}
+.raw-fullsheet .sheet-scroll::-webkit-scrollbar{display:none}
+.raw-fullsheet .sheet-scroll::-webkit-scrollbar-track{display:none}
+.raw-fullsheet .customer-sheet{width:max-content;border-collapse:collapse;font:400 clamp(7px,.9vw,11px)/1.4 var(--mono);color:#b5c1ce;min-width:100%;transform-origin:center center;transform:scale(var(--fit-scale,1))}
 .raw-fullsheet .customer-sheet th,.raw-fullsheet .customer-sheet td{padding:clamp(4px,.6vw,12px) clamp(4px,.8vw,14px);border:1px solid #303a46;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .raw-fullsheet .customer-sheet th{background:#1c2631;color:#d1dbe5;font-weight:500;letter-spacing:.01em}
 .raw-fullsheet .customer-sheet tbody tr:nth-child(even){background:#141b23}
