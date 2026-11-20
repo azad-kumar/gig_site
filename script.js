@@ -205,7 +205,41 @@ new IntersectionObserver(es => { inView = es[0].isIntersecting; sync(); }).obser
 
 /* ---------- pointer state: glow follows mouse (no tilt) ---------- */
 let mx = vw / 2, my = vh / 2, gx = mx, gy = my, seen = false;
+function fitInsightsSheets() {
+  Array.from(document.querySelectorAll(".insights-stage .sheet-scroll")).forEach(wrap => {
+    const tbl = wrap.querySelector(".customer-sheet");
+    if (!tbl) return;
+    const cw = wrap.clientWidth, ch = wrap.clientHeight;
+    const sw = tbl.offsetWidth, sh = tbl.offsetHeight;
+    if (!cw || !ch || !sw || !sh) return;
+    wrap.style.setProperty("--fit-scale", (Math.min(cw / sw, ch / sh)).toFixed(4));
+  });
+}
+
 /* ---------- insights: scroll-driven door reveal ---------- */
+// Keep the sticky insights stage clear of the fixed site header on small screens.
+let insightsNavH = 0;
+function refreshInsightsNavHeight() {
+  const nav = document.querySelector(".nav");
+  let h = nav ? nav.offsetHeight : 0;
+  if (!(h > 0)) {
+    const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h"));
+    if (v > 0) h = v;
+  }
+  if (h > 0) {
+    insightsNavH = Math.round(h);
+    document.documentElement.style.setProperty("--nav-h", insightsNavH + "px");
+  }
+  return insightsNavH;
+}
+(function syncNavHeight() {
+  refreshInsightsNavHeight();
+  requestAnimationFrame(() => requestAnimationFrame(refreshInsightsNavHeight));
+  addEventListener("load", refreshInsightsNavHeight);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshInsightsNavHeight);
+  addEventListener("resize", () => requestAnimationFrame(refreshInsightsNavHeight));
+})();
+
 const insightsEl = $("insights");
 if (insightsEl) {
   const stageIns = insightsEl.querySelector(".insights-stage");
@@ -222,29 +256,32 @@ if (insightsEl) {
     if (prog) prog.setAttribute("aria-valuenow", String(Math.round(v * 100)));
     if (pct) pct.textContent = Math.round(v * 100) + "%";
   };
+  // Distance from the section top down to the sheet (sticky stage) top, measured once at rest.
+  const headOffset = stageIns ? (stageIns.getBoundingClientRect().top - insightsEl.getBoundingClientRect().top) : 0;
+
   const updateReveal = () => {
     if (reduceMotion) { applyOpen(1); return; }
     if (kbOpen !== null) { applyOpen(kbOpen); return; }
     const rect = insightsEl.getBoundingClientRect();
     const total = Math.max(insightsEl.offsetHeight - window.innerHeight, 0);
     const passed = Math.min(Math.max(-rect.top, 0), total);
-    applyOpen(total > 0 ? passed / total : 1);
+
+    const navH = insightsNavH || refreshInsightsNavHeight();
+    const touchAt = Math.max(headOffset - navH, 0);
+    const stageTop = stageIns ? stageIns.getBoundingClientRect().top : rect.top;
+    const touched = stageTop <= navH;
+
+    if (total <= 0) { applyOpen(touched ? 1 : 0); return; }
+
+    const eff = Math.max(passed - touchAt, 0);
+    const rangeV = Math.max(total - touchAt, 1);
+    applyOpen(touched ? Math.min(eff / rangeV, 1) : 0);
   };
   updateReveal();
   addEventListener("scroll", () => requestAnimationFrame(updateReveal), { passive: true });
   addEventListener("resize", () => requestAnimationFrame(updateReveal), { passive: true });
 
-  // freeze spreadsheet: scale to fit the stage so it never scrolls or clips
-  const fitSheet = () => {
-    Array.from(insightsEl.querySelectorAll(".sheet-scroll")).forEach(wrap => {
-      const tbl = wrap.querySelector(".customer-sheet");
-      if (!tbl) return;
-      const cw = wrap.clientWidth, ch = wrap.clientHeight;
-      const sw = tbl.offsetWidth, sh = tbl.offsetHeight;
-      if (!cw || !ch || !sw || !sh) return;
-      wrap.style.setProperty("--fit-scale", (Math.min(cw / sw, ch / sh)).toFixed(4));
-    });
-  };
+
 
   // Clone the left sheet into the right split pane so both halves show the same data.
   const leftPaneScroll = insightsEl.querySelector(".sheet-pane-left .sheet-scroll");
@@ -253,8 +290,8 @@ if (insightsEl) {
     rightPaneScroll.appendChild(leftPaneScroll.querySelector(".customer-sheet").cloneNode(true));
   }
 
-  fitSheet();
-  addEventListener("resize", () => requestAnimationFrame(fitSheet), { passive: true });
+  fitInsightsSheets();
+  addEventListener("resize", () => requestAnimationFrame(fitInsightsSheets), { passive: true });
 
   // keyboard / AT fallback for non-scrolling users
   insightsEl.addEventListener("keydown", e => {
@@ -349,12 +386,25 @@ if (insightsEl) {
   }
 
   function neededRows() {
-    const vh = window.innerHeight;
+    const cw = stage.clientWidth, ch = stage.clientHeight;
+
+    // Baseline rows first so the sheet intrinsic width is measurable before we
+    // compute the exact row count for the target height.
+    tbodies.forEach(tbody => {
+      while (tbody.children.length < 24) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = generateRow(tbody.children.length);
+        tbody.appendChild(tr);
+      }
+    });
+
+    const sw = scrollWraps.length ? scrollWraps[0].querySelector(".customer-sheet").offsetWidth : 0;
     const rowH = measureRowHeight();
-    const visible = Math.ceil(vh / rowH);
-    // Extra rows so the table body extends below the HUD and fills the screen
-    const extra = Math.max(2, Math.ceil(HEADER_H / rowH));
-    return visible + extra;
+    if (!cw || !ch || !sw || !rowH) return 24;
+
+    // Rows so that after width-fitting, the sheet height equals the dashboard (stage) height.
+    const targetNaturalH = (ch * sw) / cw;
+    return Math.max(1, Math.ceil(targetNaturalH / rowH));
   }
 
   function syncRows() {
@@ -377,10 +427,11 @@ if (insightsEl) {
 
   // Initial fill
   syncRows();
+  fitInsightsSheets();
 
   // On resize, recalculate and add/remove rows as needed
   let resizeTick = false;
-  addEventListener("resize", () => { if (!resizeTick) { resizeTick = true; requestAnimationFrame(() => { syncRows(); resizeTick = false; }); } }, { passive: true });
+  addEventListener("resize", () => { if (!resizeTick) { resizeTick = true; requestAnimationFrame(() => { syncRows(); fitInsightsSheets(); resizeTick = false; }); } }, { passive: true });
 })();
 
 

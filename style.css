@@ -366,6 +366,7 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
   .links{display:none}
   .nav,.nav.is-scrolled{padding:16px}
   .hero{padding-top:88px}
+  .insights-sticky{top:var(--nav-h,68px);height:calc(100vh - var(--nav-h,68px))}
   .rail{padding:18px 16px}
 }
 @media (max-width:560px){
