@@ -197,8 +197,8 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 /* base: spreadsheet fitted to the screen */
 .raw-fullsheet{position:absolute;inset:0;z-index:3;overflow:hidden;user-select:none;isolation:isolate}
 .sheet-pane{position:absolute;top:0;bottom:0;width:50%;overflow:hidden;background:#101318;will-change:transform}
-.sheet-pane-left{left:0;transform:translateX(calc(-100%*var(--open,0)))}
-.sheet-pane-right{right:0;transform:translateX(calc(100%*var(--open,0)))}
+.sheet-pane-left{left:0;transform:translateX(calc(-100%*var(--open,0)));box-shadow:inset -46px 0 52px -18px rgba(0,0,0,.85)}
+.sheet-pane-right{right:0;transform:translateX(calc(100%*var(--open,0)));box-shadow:inset 46px 0 52px -18px rgba(0,0,0,.85)}
 .sheet-pane .sheet-scroll{position:absolute;top:0;bottom:0;width:200%;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .sheet-pane-left .sheet-scroll{left:0}
 .sheet-pane-right .sheet-scroll{right:0}
@@ -216,10 +216,7 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 /* reveal layer: sits behind the spreadsheet; exposed when the sheet splits */
 .reveal-dashboard{position:absolute;inset:0;z-index:1;overflow:hidden;background:var(--dash-bg)}
 
-.insights-progress{position:absolute;left:0;right:0;bottom:0;height:26px;display:flex;align-items:center;gap:12px;padding:0 14px;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.07));z-index:6}
-.insights-progress i{display:block;flex:1;height:3px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
-.insights-progress i::after{content:"";display:block;height:100%;width:calc(var(--open,0)*100%);background:linear-gradient(90deg,#1689ee,#59b7f6)}
-.insights-progress .pct{font:400 11px var(--mono);color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+
 #insights:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 
 .insights-stage .dash{position:absolute;inset:0;padding:18px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:44px 88px minmax(0,1fr) minmax(0,1fr);gap:10px;color:var(--dash-text);background:var(--dash-bg)}
@@ -268,6 +265,35 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 .insights-stage .country-list{display:grid;flex:1;align-content:center;gap:7px;list-style:none}
 .insights-stage .country-list li{display:grid;grid-template-columns:16px minmax(70px,1.2fr) minmax(28px,1fr) 30px;align-items:center;gap:5px;font:400 8px var(--mono);color:#c0ccd8;white-space:nowrap}
 .insights-stage .country-list .country-rank{color:#9eadbb}.insights-stage .country-list strong{font:600 8px var(--mono);text-align:right;color:#e5edf5}
+
+/* ---- more colorful dashboard accents ---- */
+.insights-stage .kpi-sales{border-top-color:#39a8ff;background-image:radial-gradient(120% 70% at 50% 0%,rgba(57,168,255,.22),transparent 70%)}
+.insights-stage .kpi-orders{border-top-color:#2fd975;background-image:radial-gradient(120% 70% at 50% 0%,rgba(47,217,117,.20),transparent 70%)}
+.insights-stage .kpi-margin{border-top-color:#ffb454;background-image:radial-gradient(120% 70% at 50% 0%,rgba(255,180,84,.22),transparent 70%)}
+.insights-stage .panel-month{border-top:2px solid #39a8ff}
+.insights-stage .panel-category{border-top:2px solid #a07dfb}
+.insights-stage .panel-payment{border-top:2px solid #2fd975}
+.insights-stage .panel-status{border-top:2px solid #ffb454}
+.insights-stage .panel-country{border-top:2px solid #4fd1c5}
+.insights-stage .category-bars>div:nth-child(1) i{background:linear-gradient(180deg,#59b7f6,#1689ee)}
+.insights-stage .category-bars>div:nth-child(2) i{background:linear-gradient(180deg,#3ad4a0,#12a877)}
+.insights-stage .category-bars>div:nth-child(3) i{background:linear-gradient(180deg,#b28bf6,#7e4ce0)}
+.insights-stage .category-bars>div:nth-child(4) i{background:linear-gradient(180deg,#ffc75f,#ee9f32)}
+.insights-stage .category-bars>div:nth-child(5) i{background:linear-gradient(180deg,#4fd1c5,#12a89b)}
+.insights-stage .status-bars>div:nth-child(1)>i>b{background:linear-gradient(90deg,#2fd975,#6fe8a8)}
+.insights-stage .status-bars>div:nth-child(2)>i>b{background:linear-gradient(90deg,#ffb454,#ffd089)}
+.insights-stage .status-bars>div:nth-child(3)>i>b{background:linear-gradient(90deg,#ff6b6b,#ff9a9a)}
+.insights-stage .status-bars>div:nth-child(4)>i>b{background:linear-gradient(90deg,#4fd1c5,#88e2da)}
+.insights-stage .donut-credit{stroke:#39a8ff}.insights-stage .donut-debit{stroke:#a07dfb}
+.insights-stage .donut-paypal{stroke:#2fd975}.insights-stage .donut-cash{stroke:#ffb454}
+.insights-stage .legend-credit{background:#39a8ff}.insights-stage .legend-debit{background:#a07dfb}
+.insights-stage .legend-paypal{background:#2fd975}.insights-stage .legend-cash{background:#ffb454}
+.insights-stage .country-list li:nth-child(1) .country-rank{color:#ffd45e}
+.insights-stage .country-list li:nth-child(2) .country-rank{color:#cfd6df}
+.insights-stage .country-list li:nth-child(3) .country-rank{color:#eda25f}
+.insights-stage .chart-area{fill:rgba(160,125,251,.20)}
+.insights-stage .chart-line{stroke:#4da6ff}
+.insights-stage .chart-dots{fill:#a07dfb;stroke:#eedeff}
 
 @media (max-width:900px){
   .insights-scroll{height:360vh}
