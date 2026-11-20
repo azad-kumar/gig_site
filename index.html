@@ -95,7 +95,8 @@
       <div class="insights-stage">
 
       <div class="raw-fullsheet" aria-hidden="true">
-        <div class="sheet-scroll"><table class="customer-sheet">
+        <div class="sheet-pane sheet-pane-left">
+          <div class="sheet-scroll"><table class="customer-sheet">
           <thead><tr><th>Customer ID</th><th>Customer Name</th><th>Age</th><th>Gender</th><th>Segment</th><th>City</th><th>State</th><th>Country</th><th>Region</th><th>Sales Amount</th></tr></thead>
           <tbody>
             <tr><td>C-1001</td><td>Olivia Martin</td><td>34</td><td>Female</td><td>Consumer</td><td>New York</td><td>New York</td><td>United States</td><td>North America</td><td>1,204.50</td></tr>
@@ -115,7 +116,15 @@
             <tr><td>C-1015</td><td>Chloe Davis</td><td>36</td><td>Female</td><td>Home Office</td><td>Mexico City</td><td>CDMX</td><td>Mexico</td><td>North America</td><td>1,892.00</td></tr>
             <tr><td>C-1016</td><td>Henry Garcia</td><td>30</td><td>Male</td><td>Consumer</td><td>Madrid</td><td>Madrid</td><td>Spain</td><td>Europe</td><td>1,016.45</td></tr>
           </tbody>
-        </table></div>
+          </table></div>
+        </div>
+        <div class="sheet-pane sheet-pane-right">
+          <div class="sheet-scroll"></div>
+        </div>
+        <svg class="crack-line" viewBox="0 0 16 100" preserveAspectRatio="none" aria-hidden="true">
+          <path class="crk-outer" d="M8 0L9.5 6L6.5 12L10 18L7 24L9.5 30L6.5 36L9.5 42L7 48L10 54L7 60L9.5 66L6.5 72L9.5 78L7 84L9.5 90L8 96L8 100"/>
+          <path class="crk-inner" d="M8 0L9.5 6L6.5 12L10 18L7 24L9.5 30L6.5 36L9.5 42L7 48L10 54L7 60L9.5 66L6.5 72L9.5 78L7 84L9.5 90L8 96L8 100"/>
+        </svg>
       </div>
 
       <div class="reveal-dashboard" aria-hidden="true">
@@ -155,8 +164,7 @@
 </div>
       </div>
 
-      <div class="door-seam door-seam-left" aria-hidden="true"></div>
-      <div class="door-seam door-seam-right" aria-hidden="true"></div>
+
       <div class="insights-progress" role="progressbar" aria-label="Reveal progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i><span class="pct">0%</span></div>
       </div>
     </div>

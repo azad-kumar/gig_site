@@ -235,15 +235,24 @@ if (insightsEl) {
   addEventListener("resize", () => requestAnimationFrame(updateReveal), { passive: true });
 
   // freeze spreadsheet: scale to fit the stage so it never scrolls or clips
-  const sheetWrap = insightsEl.querySelector(".sheet-scroll");
-  const sheetTbl = insightsEl.querySelector(".customer-sheet");
   const fitSheet = () => {
-    if (!sheetWrap || !sheetTbl) return;
-    const cw = sheetWrap.clientWidth, ch = sheetWrap.clientHeight;
-    const sw = sheetTbl.offsetWidth, sh = sheetTbl.offsetHeight;
-    if (!cw || !ch || !sw || !sh) return;
-    sheetWrap.style.setProperty("--fit-scale", (Math.min(cw / sw, ch / sh)).toFixed(4));
+    Array.from(insightsEl.querySelectorAll(".sheet-scroll")).forEach(wrap => {
+      const tbl = wrap.querySelector(".customer-sheet");
+      if (!tbl) return;
+      const cw = wrap.clientWidth, ch = wrap.clientHeight;
+      const sw = tbl.offsetWidth, sh = tbl.offsetHeight;
+      if (!cw || !ch || !sw || !sh) return;
+      wrap.style.setProperty("--fit-scale", (Math.min(cw / sw, ch / sh)).toFixed(4));
+    });
   };
+
+  // Clone the left sheet into the right split pane so both halves show the same data.
+  const leftPaneScroll = insightsEl.querySelector(".sheet-pane-left .sheet-scroll");
+  const rightPaneScroll = insightsEl.querySelector(".sheet-pane-right .sheet-scroll");
+  if (leftPaneScroll && rightPaneScroll && !rightPaneScroll.querySelector(".customer-sheet")) {
+    rightPaneScroll.appendChild(leftPaneScroll.querySelector(".customer-sheet").cloneNode(true));
+  }
+
   fitSheet();
   addEventListener("resize", () => requestAnimationFrame(fitSheet), { passive: true });
 
@@ -268,9 +277,18 @@ if (insightsEl) {
 (function initSheetRows() {
   const stage = document.querySelector(".insights-stage");
   if (!stage) return;
-  const scrollWrap = stage.querySelector(".sheet-scroll");
-  const tbody = stage.querySelector(".customer-sheet tbody");
-  if (!scrollWrap || !tbody) return;
+
+  // Clone the left sheet into the right split pane so both halves show the same data.
+  const leftPaneScroll = stage.querySelector(".sheet-pane-left .sheet-scroll");
+  const rightPaneScroll = stage.querySelector(".sheet-pane-right .sheet-scroll");
+  if (leftPaneScroll && rightPaneScroll && !rightPaneScroll.querySelector(".customer-sheet")) {
+    rightPaneScroll.appendChild(leftPaneScroll.querySelector(".customer-sheet").cloneNode(true));
+  }
+
+  const scrollWraps = Array.from(stage.querySelectorAll(".sheet-scroll"));
+  const tbodies = Array.from(stage.querySelectorAll(".customer-sheet tbody"));
+  const tbody = tbodies.length ? tbodies[0] : null;
+  if (!scrollWraps.length || !tbodies.length) return;
 
   const NAMES = [
     "Olivia Martin","Liam Johnson","Amara Okafor","Noah Williams","Sofia Chen",
@@ -341,18 +359,20 @@ if (insightsEl) {
 
   function syncRows() {
     const needed = neededRows();
-    const current = tbody.children.length;
-    if (needed > current) {
-      const frag = document.createDocumentFragment();
-      for (let i = 0; i < needed - current; i++) {
-        const tr = document.createElement("tr");
-        tr.innerHTML = generateRow(current + i);
-        frag.appendChild(tr);
+    tbodies.forEach(tbody => {
+      const current = tbody.children.length;
+      if (needed > current) {
+        const frag = document.createDocumentFragment();
+        for (let i = 0; i < needed - current; i++) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = generateRow(current + i);
+          frag.appendChild(tr);
+        }
+        tbody.appendChild(frag);
+      } else if (needed < current) {
+        while (tbody.children.length > needed) tbody.removeChild(tbody.lastChild);
       }
-      tbody.appendChild(frag);
-    } else if (needed < current) {
-      while (tbody.children.length > needed) tbody.removeChild(tbody.lastChild);
-    }
+    });
   }
 
   // Initial fill
