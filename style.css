@@ -191,10 +191,8 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 .insights-sticky{position:sticky;top:0;height:100vh;overflow:hidden;z-index:10}
 .insights-stage{--chart-blue:#39a8ff;--chart-deep:#1476c8;--dash-bg:#121a23;--dash-surface:#19232e;--dash-raised:#202d39;--dash-border:#344352;--dash-grid:#354555;--dash-text:#e5edf5;--dash-muted:#afbdcb;--open:0;
   position:relative;width:100%;height:100%;background:#101318;isolation:isolate;overflow:hidden}
-.insights-hud{position:absolute;top:max(2.2rem,7vh);left:50%;transform:translateX(-50%);text-align:center;z-index:6;width:min(92%,920px);pointer-events:none}
-.insights-hud .eyebrow{margin-bottom:10px}
-.insights-hud .h2{font-size:clamp(30px,4.4vw,58px);margin-bottom:10px}
-.insights-hud .lede{margin-bottom:0}
+#insights{position:relative;scroll-margin-top:90px}
+.insights-head{padding:clamp(64px,9vh,110px) clamp(20px,6vw,48px) clamp(28px,4vh,44px)}
 
 /* base: spreadsheet fitted to the screen */
 .raw-fullsheet{position:absolute;inset:0;z-index:1;overflow:hidden;background:#101318;color:#acb5c0;user-select:none;display:flex;align-items:stretch;justify-content:stretch}
@@ -217,7 +215,7 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 .insights-progress i{display:block;flex:1;height:3px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
 .insights-progress i::after{content:"";display:block;height:100%;width:calc(var(--open,0)*100%);background:linear-gradient(90deg,#1689ee,#59b7f6)}
 .insights-progress .pct{font:400 11px var(--mono);color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
-.insights-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+#insights:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 
 .insights-stage .dash{position:absolute;inset:0;padding:18px;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:44px 88px minmax(0,1fr) minmax(0,1fr);gap:10px;color:var(--dash-text);background:var(--dash-bg)}
 .insights-stage .dash-header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 12px;border:1px solid #3b4b5b;border-radius:5px;background:var(--dash-raised);color:#f1f6fb}
