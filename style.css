@@ -337,6 +337,11 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 /* ---------- skills / projects / contact / modal ---------- */
 .skill-grid,.proj-grid{display:grid;gap:16px}
 .skill-grid{grid-template-columns:repeat(3,1fr)}
+.skill-flow{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.skill-chip{display:inline-block;position:relative;overflow:hidden;padding:11px 20px;border:1px solid var(--line);border-radius:99px;font:500 13px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.02);transition:border-color .3s ease,transform .35s var(--spring),box-shadow .3s ease,background .3s ease}
+.skill-chip::before{content:"";position:absolute;inset:-100% auto auto -60%;width:40%;height:300%;transform:skewX(-25deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .6s ease}
+.skill-chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-4px) scale(1.06);background:rgba(0,255,157,.06);box-shadow:0 10px 24px -10px rgba(0,255,157,.45)}
+.skill-chip:hover::before{left:140%}
 .proj-grid{grid-template-columns:repeat(3,1fr)}
 
 /* ---------- skills marquee ---------- */
