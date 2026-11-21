@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supply Chain Analytics Dashboard | Azad Kumar</title>
+<meta name="description" content="Supply Chain Analytics Dashboard — BI dashboard tracking stock-out risk, warehouse utilization, and supplier/carrier performance.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body id="top">
+<div class="grid" aria-hidden="true"></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<div class="vig" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" style="background-color:rgba(6,7,8,.94);border-bottom:1px solid rgba(255,255,255,.12)">
+  <a class="logo" href="../index.html#top" aria-label="Azad Kumar">Azad Kumar<i aria-hidden="true">_</i></a>
+  <div class="right">
+    <a class="cta" href="../index.html#contact"><span class="dot" aria-hidden="true"></span>Connect</a>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">BI &middot; Supply Chain Analytics</p>
+    <h1 class="h2" style="font-size:clamp(30px,4.4vw,58px)">Supply Chain Analytics Dashboard</h1>
+    <p class="lede">A BI dashboard tracking stock-out risk, warehouse utilization, and supplier/carrier performance across a warehouse network.</p>
+
+    <div class="skill-flow">
+      <span class="skill-chip">Python</span>
+      <span class="skill-chip">Pandas</span>
+      <span class="skill-chip">PostgreSQL</span>
+      <span class="skill-chip">SQLAlchemy</span>
+      <span class="skill-chip">Power BI</span>
+      <span class="skill-chip">OpenPyXL</span>
+    </div>
+
+    <h2 class="h2" style="font-size:26px;margin-top:48px">Overview</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">An end-to-end data analytics project tracking inventory health, supplier performance, and shipment delays across a network of warehouses and suppliers in India. The project generates realistic synthetic data, loads it into a PostgreSQL relational database, runs business intelligence queries, and delivers insights through an interactive Power BI dashboard and an exported Excel report.</p>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Technology Stack</h2>
+    <div class="proj-grid" style="grid-template-columns:1fr 1fr">
+      <article class="card">
+        <h3>Data Generation</h3>
+        <p class="proj-desc">Python 3 &middot; Pandas &middot; NumPy &middot; Faker (en_IN) with fixed seed for reproducibility.</p>
+      </article>
+      <article class="card">
+        <h3>Database</h3>
+        <p class="proj-desc">PostgreSQL with SQLAlchemy ORM, six core tables with foreign-key relationships.</p>
+      </article>
+      <article class="card">
+        <h3>Analysis</h3>
+        <p class="proj-desc">Eight SQL business-metric queries; results exported to a multi-sheet Excel workbook.</p>
+      </article>
+      <article class="card">
+        <h3>Visualization</h3>
+        <p class="proj-desc">Microsoft Power BI (.pbix) interactive dashboard.</p>
+      </article>
+    </div>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Dataset</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">10 warehouses, 50 suppliers, 300 products, 300 inventory records, 2,000 purchase orders, and ~1,300 shipments — about 3,960 records across six tables.</p>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Key Insights</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">Inventory health by status (Low Stock / Overstock / Healthy), warehouse utilization levels bucketed as Critical/High/Medium/Low, carrier reliability and shipment delays, and monthly procurement spend trends.</p>
+
+    <div class="proj-actions" style="justify-content:flex-start">
+      <a class="btn-primary" href="../index.html#projects">&larr; Back to projects</a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

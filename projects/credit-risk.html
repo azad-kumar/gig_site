@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credit Risk Prediction System | Azad Kumar</title>
+<meta name="description" content="Credit Risk Prediction System — end-to-end ML system classifying loan applicants as high or low credit risk.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body id="top">
+<div class="grid" aria-hidden="true"></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<div class="vig" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" style="background-color:rgba(6,7,8,.94);border-bottom:1px solid rgba(255,255,255,.12)">
+  <a class="logo" href="../index.html#top" aria-label="Azad Kumar">Azad Kumar<i aria-hidden="true">_</i></a>
+  <div class="right">
+    <a class="cta" href="../index.html#contact"><span class="dot" aria-hidden="true"></span>Connect</a>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">ML &middot; Classification</p>
+    <h1 class="h2" style="font-size:clamp(30px,4.4vw,58px)">Credit Risk Prediction System</h1>
+    <p class="lede">An end-to-end machine learning system that classifies loan applicants into High Risk or Low Risk categories to support better credit approval decisions.</p>
+
+    <div class="skill-flow">
+      <span class="skill-chip">Python</span>
+      <span class="skill-chip">PostgreSQL</span>
+      <span class="skill-chip">Pandas</span>
+      <span class="skill-chip">NumPy</span>
+      <span class="skill-chip">Scikit-Learn</span>
+      <span class="skill-chip">XGBoost</span>
+      <span class="skill-chip">FastAPI</span>
+    </div>
+
+    <h2 class="h2" style="font-size:26px;margin-top:48px">Overview</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">A complete end-to-end ML system for predicting customer loan default risk. The pipeline ingests raw source files, engineers features, stores them in a customer-level feature store, and exposes predictions through a real-time API.</p>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Architecture</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">CSV files &rarr; PostgreSQL Database &rarr; Feature Engineering &rarr; Feature Store &rarr; ML Pipeline &rarr; FastAPI API &rarr; Real-time Predictions.</p>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Key Features</h2>
+    <div class="proj-grid" style="grid-template-columns:1fr 1fr">
+      <article class="card">
+        <h3>Data Engineering</h3>
+        <p class="proj-desc">Loaded 11 source files into PostgreSQL; built a feature engineering pipeline and a customer-level feature store.</p>
+      </article>
+      <article class="card">
+        <h3>Machine Learning</h3>
+        <p class="proj-desc">Trained Logistic Regression, Random Forest and XGBoost; evaluated with Accuracy, Precision, Recall, F1 and ROC-AUC. Pre-trained XGBoost ready for inference.</p>
+      </article>
+      <article class="card">
+        <h3>Deployment</h3>
+        <p class="proj-desc">FastAPI REST API with Swagger UI, real-time risk prediction endpoint, and error handling for not-found scenarios.</p>
+      </article>
+      <article class="card">
+        <h3>Sample API Response</h3>
+        <p class="proj-desc" style="font-family:var(--mono);color:var(--text)">{ "customer_id": 100002, "default_probability": 0.88, "prediction": "High Risk" }</p>
+      </article>
+    </div>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Dependencies</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">pandas, numpy, scikit-learn, xgboost, sqlalchemy, psycopg2-binary, fastapi, uvicorn, joblib, jupyter, notebook.</p>
+
+    <div class="proj-actions" style="justify-content:flex-start">
+      <a class="btn-primary" href="../index.html#projects">&larr; Back to projects</a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

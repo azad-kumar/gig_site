@@ -361,6 +361,11 @@ body.paused *,body.paused *::after{animation-play-state:paused!important}
 .proj-tech{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 .proj-desc{font:400 14px/1.65 var(--mono);color:var(--muted)}
 .proj-actions{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:12px}
+.proj{display:flex;flex-direction:column}
+.proj .proj-desc{flex:1}
+.proj .proj-actions{margin-top:auto;padding-top:18px;justify-content:flex-start}
+.proj .btn-primary{background:transparent;color:var(--accent);border-color:var(--accent)}
+.proj .btn-primary:hover{background:var(--accent);color:var(--ink);box-shadow:0 0 24px rgba(0,255,157,.35)}
 .contact{text-align:center;display:grid;justify-items:center}
 .foot-note{margin-top:34px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 @media (max-width:900px){.skill-grid,.proj-grid{grid-template-columns:1fr 1fr}}

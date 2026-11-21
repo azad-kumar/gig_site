@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamic Pricing Model | Azad Kumar</title>
+<meta name="description" content="Dynamic Pricing Model — retail pricing optimization driven by statistical testing, customer segmentation, and seasonal forecasting.">
+<meta name="theme-color" content="#0a0b0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body id="top">
+<div class="grid" aria-hidden="true"></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<div class="vig" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" style="background-color:rgba(6,7,8,.94);border-bottom:1px solid rgba(255,255,255,.12)">
+  <a class="logo" href="../index.html#top" aria-label="Azad Kumar">Azad Kumar<i aria-hidden="true">_</i></a>
+  <div class="right">
+    <a class="cta" href="../index.html#contact"><span class="dot" aria-hidden="true"></span>Connect</a>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Analytics &middot; Pricing Optimization</p>
+    <h1 class="h2" style="font-size:clamp(30px,4.4vw,58px)">Dynamic Pricing Model</h1>
+    <p class="lede">Retail pricing optimization driven by statistical testing, customer segmentation, and monthly seasonal forecasting.</p>
+
+    <div class="skill-flow">
+      <span class="skill-chip">Python</span>
+      <span class="skill-chip">Databricks</span>
+      <span class="skill-chip">PySpark</span>
+      <span class="skill-chip">SQL</span>
+      <span class="skill-chip">K-Means</span>
+      <span class="skill-chip">ANOVA</span>
+      <span class="skill-chip">Time-Series</span>
+      <span class="skill-chip">Tableau</span>
+    </div>
+
+    <h2 class="h2" style="font-size:26px;margin-top:48px">Overview</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">This project builds a dynamic pricing model for a fictional retail chain spanning multiple stores, departments, and regions. It integrates data engineering, exploratory analysis, machine learning, statistical testing, and time-series forecasting to derive data-driven pricing strategies. The primary objective is to predict future weekly sales and recommend optimal price adjustments based on seasonal patterns, economic indicators, and store-level characteristics.</p>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Data Sources</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">Three web-scraped CSV datasets were joined: stores (45 rows), external features (8,190 rows), and weekly sales (421,570 rows), covering 2010-02-05 to 2012-11-01.</p>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Methodology</h2>
+    <div class="proj-grid" style="grid-template-columns:1fr 1fr">
+      <article class="card">
+        <h3>EDA</h3>
+        <p class="proj-desc">Line trends, pair plots, boxplots, and violin plots to understand sales behaviour and cluster distributions.</p>
+      </article>
+      <article class="card">
+        <h3>K-Means Clustering</h3>
+        <p class="proj-desc">Unsupervised segmentation of stores/customers by revenue, purchase frequency, and recency — three clusters identified.</p>
+      </article>
+      <article class="card">
+        <h3>Statistical Testing</h3>
+        <p class="proj-desc">ANOVA + Tukey's HSD confirm significant monthly differences in weekly sales, driving month-specific pricing.</p>
+      </article>
+      <article class="card">
+        <h3>Forecasting</h3>
+        <p class="proj-desc">Time-series analysis and forecasting foundation for the dynamic pricing model.</p>
+      </article>
+    </div>
+
+    <h2 class="h2" style="font-size:26px;margin-top:44px">Key Insights</h2>
+    <p style="color:var(--muted);line-height:1.7;max-width:60em">Store size matters (Type A vs B); monthly seasonality is statistically significant; percentile-based discount classification provides a practical framework; correlation analysis identified the economic factors that most influence sales; and customer segments enable targeted pricing strategies.</p>
+
+    <div class="proj-actions" style="justify-content:flex-start">
+      <a class="btn-primary" href="../index.html#projects">&larr; Back to projects</a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
