@@ -205,6 +205,7 @@ new IntersectionObserver(es => { inView = es[0].isIntersecting; sync(); }).obser
 
 /* ---------- pointer state: glow follows mouse (no tilt) ---------- */
 let mx = vw / 2, my = vh / 2, gx = mx, gy = my, seen = false;
+let refreshReveal = null;
 function fitInsightsSheets() {
   Array.from(document.querySelectorAll(".insights-stage .sheet-scroll")).forEach(wrap => {
     const tbl = wrap.querySelector(".customer-sheet");
@@ -278,6 +279,7 @@ if (insightsEl) {
     applyOpen(touched ? Math.min(eff / rangeV, 1) : 0);
   };
   updateReveal();
+  refreshReveal = updateReveal;
   addEventListener("scroll", () => requestAnimationFrame(updateReveal), { passive: true });
   addEventListener("resize", () => requestAnimationFrame(updateReveal), { passive: true });
 
@@ -507,6 +509,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add("on"); io.unobserve(x.target); } }), { threshold: .12 });
 document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* Re-sync all scroll-driven state when returning to this page
+   (from a project sub-page): bfcache restore or scroll restoration. */
+function syncRevealsAfterReturn() {
+  if (refreshReveal) refreshReveal();
+  const vh = window.innerHeight;
+  document.querySelectorAll(".reveal:not(.on)").forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < vh && r.bottom > 0) el.classList.add("on");
+  });
+}
+window.addEventListener("pageshow", () => {
+  syncNav();
+  syncIndicators();
+  fitInsightsSheets();
+  syncRevealsAfterReturn();
+});
 
 
 })();

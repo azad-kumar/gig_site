@@ -1,10 +1,44 @@
-# Ignore all dot-prefixed files and folders
-/.[!.]*
-/..?*
+# === KEEP (deployed to GitHub Pages) ===
+# DO NOT add these patterns:
+# index.html
+# style.css
+# script.js
+# .nojekyll
+# assets/
+# projects/
+# fonts/
+# README.md
+# CNAME
 
-# Allow the .gitignore file
-!/.gitignore
+# === IGNORE (not needed for hosting) ===
 
-# Allow GitHub workflows and configuration
-!/.github/
-!/.github/**
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude / AI tooling
+.claude/
+.claude-flow/
+.agents/
+
+# Node / build (if ever added)
+node_modules/
+dist/
+build/
+*.log
+npm-debug.log*
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Misc
+*.tmp
+*.temp
+.cache/
