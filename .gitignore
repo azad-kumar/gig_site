@@ -1,44 +1,52 @@
-# === KEEP (deployed to GitHub Pages) ===
-# DO NOT add these patterns:
-# index.html
-# style.css
-# script.js
-# .nojekyll
-# assets/
-# projects/
-# fonts/
-# README.md
-# CNAME
+# === DEPLOYABLE FILES (KEEP these tracked) ===
+# index.html, style.css, script.js, .nojekyll
+# assets/, projects/, fonts/, README.md
 
-# === IGNORE (not needed for hosting) ===
-
-# IDE / Editor
-.vscode/
-.idea/
-*.swp
-*.swo
+# === IGNORED (local/dev/tooling only) ===
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Claude / AI tooling
+# Editor / IDE
+.vscode/
+
+# Claude / AI agent tooling
 .claude/
 .claude-flow/
 .agents/
+.swarm/
+.claude/settings.local.json
 
-# Node / build (if ever added)
+# MCP / tools config
+.mcp.json
+.mcp.*
+
+# Random/local scratch
+.random.txt
+
+# Internal docs & backups (not part of live site)
+personal_info/
+portfolio_info/
+
+# Local dev artifacts & scripts
+CLAUDE.md
+*.mjs
+prompts.txt
+.qa*
+.random.txt
+skills-lock.json
+
+# Build / cache artifacts (in case added later)
 node_modules/
 dist/
 build/
+coverage/
+.nyc_output/
+.cache/
 *.log
 npm-debug.log*
 
-# Test / coverage
-coverage/
-.nyc_output/
-
-# Misc
+# Misc temp files
 *.tmp
 *.temp
-.cache/
