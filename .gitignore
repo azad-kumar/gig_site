@@ -1,4 +1,5 @@
-# === DEPLOYABLE FILES (KEEP these tracked) ===
+# === DEPLOYABLE FILES (KEEP) ===
+# These are NOT ignored — they make up your portfolio site:
 # index.html, style.css, script.js, .nojekyll
 # assets/, projects/, fonts/, README.md
 
@@ -22,20 +23,20 @@ Thumbs.db
 .mcp.json
 .mcp.*
 
-# Random/local scratch
-.random.txt
+# Local dev artifacts & scripts
+*.mjs
+CLAUDE.md
+prompts.txt
+.skills-lock*
 
-# Internal docs & backups (not part of live site)
+# Internal personal/portfolio docs (not part of live site)
 personal_info/
 portfolio_info/
 
-# Local dev artifacts & scripts
-CLAUDE.md
-*.mjs
-prompts.txt
-.qa*
+# Misc temp/random files
 .random.txt
-skills-lock.json
+*.tmp
+*.temp
 
 # Build / cache artifacts (in case added later)
 node_modules/
@@ -46,7 +47,3 @@ coverage/
 .cache/
 *.log
 npm-debug.log*
-
-# Misc temp files
-*.tmp
-*.temp
