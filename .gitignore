@@ -27,7 +27,7 @@ Thumbs.db
 *.mjs
 CLAUDE.md
 prompts.txt
-.skills-lock*
+skills-lock.json
 
 # Internal personal/portfolio docs (not part of live site)
 personal_info/
